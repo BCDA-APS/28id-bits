@@ -8,6 +8,21 @@ apstools.devices.SimulatedApsPssShutterWithStatus:
 - name: shutter
   labels: [ "shutters", "baseline" ]
 
+hklpy2.creator:
+- name: psic
+  geometry: E6C
+  labels: [ "diffractometer", "hklpy2" ]
+  # prefix: "zgp:"  # FIXME use correct PVs
+  # reals:
+  #   # MUST provide in canonical order
+  #   # No defined motor assignments, pick different than fourc (m29-32)
+  #   mu: m23
+  #   eta: m24
+  #   chi: m25
+  #   phi: m26
+  #   nu: m27
+  #   delta: m28
+
 ## THIS ARE EXAMPLES OF OTHER DEVICES THAT YOU CAN USE
 # ophyd.Signal:
 # - name: test
