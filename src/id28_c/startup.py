@@ -32,6 +32,10 @@ from apsbits.utils.helper_functions import register_bluesky_magics
 from apsbits.utils.helper_functions import running_in_queueserver
 from apsbits.utils.logging_setup import configure_logging
 
+from id28_c.plans.sim_plans import sim_count_plan  # noqa
+from id28_c.plans.sim_plans import sim_print_plan  # noqa
+from id28_c.plans.sim_plans import sim_rel_scan_plan  # noqa
+
 # Configuration block
 # Get the path to the instrument package
 # Load configuration to be used by the instrument.
