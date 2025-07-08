@@ -9,7 +9,10 @@ apstools.devices.SimulatedApsPssShutterWithStatus:
   labels: [ "shutters", "baseline" ]
 
 hklpy2.creator:
-- name: psic
+- name: simfourc
+  geometry: E4CV
+  labels: [ "diffractometer", "hklpy2" ]
+- name: simpsic
   geometry: E6C
   labels: [ "diffractometer", "hklpy2" ]
   # prefix: "zgp:"  # FIXME use correct PVs
