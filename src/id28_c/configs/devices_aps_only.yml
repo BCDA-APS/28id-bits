@@ -6,3 +6,9 @@ apstools.devices.ApsMachineParametersDevice:
 - name: aps
   labels:
   - baseline
+
+apstools.devices.aps_undulator.PlanarUndulator:
+- name: undulator_upstream
+  prefix: "S28ID:USID:"
+- name: undulator_downstream
+  prefix: "S28ID:DSID:"
