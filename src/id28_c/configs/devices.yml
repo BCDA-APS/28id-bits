@@ -1,5 +1,77 @@
 # Guarneri-style device YAML configuration
 
+apstools.devices.motor_factory.mb_creator:
+- name: idt
+  prefix: "28idaSoft:IDT-DCM:"
+  motors:
+    brag: m1
+    gap: m2
+    bv: m3  # beamViewer
+    pit: m5  # pitch
+    roll: m6
+    x: m7
+    y: m8
+- name: scmde
+  prefix: "28idaSoft:JJ-SCM:"
+  motors:
+    x: m1
+    y: m2
+    th: m3
+    ch: m4
+- name: scmf
+  prefix: "28idaSoft:JJ-SCM:"
+  motors:
+    x: m5
+    y: m6
+    th: m7
+    ch: m8
+- name: scmg
+  prefix: "28idaSoft:JJ-SCM:"
+  motors:
+    x: m9
+    y: m10
+    th: m11
+    ch: m12
+- name: sl2  # Some known slit controller?
+  prefix: "28ida:SL-2:"
+  motors:
+    hcen: hCenter
+    hsiz: hSize
+    vcen: vCenter
+    vsiz: vSize
+- name: slb
+  prefix: "28ida:"
+  motors:
+    b: m28
+    t: m29
+    o: m30
+    i: m31
+    foil: m32
+- name: sld
+  prefix: "28ida:"
+  motors:
+    b: m9
+    t: m10
+    o: m11
+    i: m12
+    foil: m13
+- name: slf
+  prefix: "28ida:"
+  motors:
+    b: m14
+    t: m15
+    o: m16
+    i: m17
+    foil: m18
+- name: slg
+  prefix: "28ida:"
+  motors:
+    b: m19
+    t: m20
+    o: m21
+    i: m22
+    foil: m23
+
 apsbits.utils.sim_creator.predefined_device:
 - { creator: ophyd.sim.motor, name: sim_motor }
 - { creator: ophyd.sim.noisy_det, name: sim_det }
