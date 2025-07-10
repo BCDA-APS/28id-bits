@@ -6,12 +6,12 @@ apstools.devices.motor_factory.mb_creator:
   motors:
     brag: m1
     gap: m2
-    bv: m3  # beamViewer
-    pit: m5  # pitch
+    bv: m3 # beamViewer
+    pit: m5 # pitch
     roll: m6
     x: m7
     y: m8
-  labels: ["baseline",]
+  labels: [ "baseline" ]
 - name: scmde
   prefix: "28idaSoft:JJ-SCM:"
   motors:
@@ -19,7 +19,7 @@ apstools.devices.motor_factory.mb_creator:
     y: m2
     th: m3
     ch: m4
-  labels: ["baseline",]
+  labels: [ "baseline" ]
 - name: scmf
   prefix: "28idaSoft:JJ-SCM:"
   motors:
@@ -27,7 +27,7 @@ apstools.devices.motor_factory.mb_creator:
     y: m6
     th: m7
     ch: m8
-  labels: ["baseline",]
+  labels: [ "baseline" ]
 - name: scmg
   prefix: "28idaSoft:JJ-SCM:"
   motors:
@@ -35,15 +35,15 @@ apstools.devices.motor_factory.mb_creator:
     y: m10
     th: m11
     ch: m12
-  labels: ["baseline",]
-- name: sl2  # Some known slit controller?
+  labels: [ "baseline" ]
+- name: sl2 # Some known slit controller?
   prefix: "28ida:SL-2:"
   motors:
     hcen: hCenter
     hsiz: hSize
     vcen: vCenter
     vsiz: vSize
-  labels: ["baseline",]
+  labels: [ "baseline" ]
 - name: slb
   prefix: "28ida:"
   motors:
@@ -52,7 +52,7 @@ apstools.devices.motor_factory.mb_creator:
     o: m30
     i: m31
     foil: m32
-  labels: ["baseline",]
+  labels: [ "baseline" ]
 - name: sld
   prefix: "28ida:"
   motors:
@@ -61,7 +61,7 @@ apstools.devices.motor_factory.mb_creator:
     o: m11
     i: m12
     foil: m13
-  labels: ["baseline",]
+  labels: [ "baseline" ]
 - name: slf
   prefix: "28ida:"
   motors:
@@ -70,7 +70,7 @@ apstools.devices.motor_factory.mb_creator:
     o: m16
     i: m17
     foil: m18
-  labels: ["baseline",]
+  labels: [ "baseline" ]
 - name: slg
   prefix: "28ida:"
   motors:
@@ -79,7 +79,7 @@ apstools.devices.motor_factory.mb_creator:
     o: m21
     i: m22
     foil: m23
-  labels: ["baseline",]
+  labels: [ "baseline" ]
 
 hklpy2.creator:
 - name: simfourc
@@ -102,34 +102,34 @@ hklpy2.creator:
 ophyd.EpicsSignal:
 - name: I0
   prefix: "28idaSoft:LJT702:Ai0"
-  labels: ["detectors",]
+  labels: [ "detectors" ]
 - name: labj0
   prefix: "28idaSoft:LJT701:Ai0"
-  labels: ["detectors",]
+  labels: [ "detectors" ]
 - name: labj2
   prefix: "28idaSoft:LJT701:Ai2"
-  labels: ["detectors",]
+  labels: [ "detectors" ]
 - name: pind
   prefix: "28idaSoft:LJT702:Ai2"
-  labels: ["detectors",]
+  labels: [ "detectors" ]
 - name: pind_AB
   prefix: "28idaSoft:userCalc1.VAL"
-  labels: ["detectors",]
-- name: t2top  # TetrAMM "28idTetra:QUAD2:"
+  labels: [ "detectors" ]
+- name: t2top # TetrAMM "28idTetra:QUAD2:"
   prefix: "28idTetra:QUAD2:Current2:MeanValue_RBV"
-  labels: ["detectors",]
+  labels: [ "detectors" ]
 - name: t2bot
   prefix: "28idTetra:QUAD2:Current4:MeanValue_RBV"
-  labels: ["detectors",]
-- name: tmm1_1  # TetrAMM "28idTetra:QUAD1:"
+  labels: [ "detectors" ]
+- name: tmm1_1 # TetrAMM "28idTetra:QUAD1:"
   prefix: "28idTetra:QUAD1:Current1:MeanValue_RBV"
-  labels: ["detectors",]
+  labels: [ "detectors" ]
 - name: tmm1_2
   prefix: "28idTetra:QUAD1:Current2:MeanValue_RBV"
-  labels: ["detectors",]
+  labels: [ "detectors" ]
 - name: tmm1_3
   prefix: "28idTetra:QUAD1:Current3:MeanValue_RBV"
-  labels: ["detectors",]
+  labels: [ "detectors" ]
 - name: tmm1_4
   prefix: "28idTetra:QUAD1:Current4:MeanValue_RBV"
-  labels: ["detectors",]
+  labels: [ "detectors" ]
