@@ -1,0 +1,17 @@
+# Diffractometers used by sixcidc configuration
+
+id28_common.devices.sixc_geometry.Sixc:
+- name: sixcidc
+  prefix: "28idc:"
+  radius: 500.0 # TODO: use actual value
+  m_delta: m1
+  m_theta: m2
+  m_chi: m3
+  m_phi: m4
+  m_mu: m5
+  m_gamscrew: m6
+
+# Simulator
+id28_common.devices.sixc_geometry.SixcSim:
+- name: sixcsim
+  radius: 500.0 # TODO: use actual value
