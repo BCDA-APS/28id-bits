@@ -29,8 +29,6 @@ devices YAML:
       radius: 500.0  # TODO: use actual value
 """
 
-# TODO: screw axis does not appear in wh() or configuration
-
 import math
 
 import hklpy2
@@ -85,15 +83,13 @@ class GammaPositionerComputed(SoftPositioner):
         if self.screw.connected:
             self._recompute_limits()
 
-    def forward(self, screw: float, radius: float) -> float:
+    def forward(self, screw: float) -> float:
         """Return gamma angle (degrees) from screw translation."""
-        if abs(screw) > abs(radius):
-            raise ValueError(f"|screw| ({abs(screw)}) > |radius| ({abs(radius)}).")
-        return math.asin(screw / radius) * 180 / math.pi
+        return math.atan2(screw, self.radius) * 180 / math.pi
 
-    def inverse(self, gamma: float, radius: float) -> float:
+    def inverse(self, gamma: float) -> float:
         """Return screw translation from gamma angle (degrees)."""
-        return radius * math.sin(gamma * math.pi / 180)
+        return self.radius * math.tan(gamma * math.pi / 180)
 
     @property
     def position(self) -> float:
@@ -102,12 +98,12 @@ class GammaPositionerComputed(SoftPositioner):
             screw = self.screw.position
         except AttributeError:
             screw = 0  # during initialization
-        return self.forward(screw, self.radius)
+        return self.forward(screw)
 
     def _set_position(self, value, **kwargs):
         """Set the current internal position, run the readback subscription."""
         try:
-            angle = self.inverse(value, self.radius)
+            angle = self.inverse(value)
             self.screw._set_position(angle, **kwargs)
         except AttributeError:
             super()._set_position(value, **kwargs)  # during initialization
@@ -115,10 +111,7 @@ class GammaPositionerComputed(SoftPositioner):
     def _recompute_limits(self) -> None:
         """Compute gamma limits from screw translation."""
         try:
-            limits = self.screw.limits
-            lo = self.forward(limits[0], self.radius)
-            hi = self.forward(limits[-1], self.radius)
-            self._limits = tuple(sorted([lo, hi]))
+            self._limits = tuple(sorted(map(self.forward, self.screw.limits)))
         except AttributeError:
             pass  # during initialization
 
