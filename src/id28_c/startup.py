@@ -106,6 +106,7 @@ else:
 
 # Experiment specific logic, device and plan loading
 RE(make_devices(clear=False, file="devices.yml"))  # Create the devices.
+RE(make_devices(clear=False, file="devices_sixcidc.yml"))  # diffractometers
 
 if host_on_aps_subnet():
     RE(make_devices(clear=False, file="devices_aps_only.yml"))

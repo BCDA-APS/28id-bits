@@ -32,6 +32,7 @@ devices YAML:
 import math
 
 import hklpy2
+from hklpy2.misc import VirtualPositionerBase
 from ophyd import Component
 from ophyd import EpicsMotor
 from ophyd import FormattedComponent
@@ -51,37 +52,28 @@ GEOMETRY = dict(
 SixcBase = hklpy2.diffractometer_class_factory(**GEOMETRY)
 
 
-class GammaPositionerComputed(SoftPositioner):
+class VirtualGamma(VirtualPositionerBase):
     """
-    Compute angle gamma from screw translation.
-
-    Use this class (instead of ``SoftPositioner``) for the gamma axis in the
-    diffractometer class.
+    Compute (virtual) angle 'gamma' from screw translation.
 
     PARAMETERS:
 
     radius *float* :
         Radius of the gamma rotation.  Default: 10_000.0.  Must have same
         engineering units as gamma screw translation.
-    screw_name *str* :
+    physical_name *str* :
         Name of the screw axis component (in the parent diffractometer).
-        Default: ``"gamscrew"``.
     """
 
     def __init__(
         self,
         *,
         radius: float = DEFAULT_RADIUS,
-        screw_name: str = "gamscrew",
         **kwargs,
     ):
         """."""
         self.radius = radius  # same units as screw
         super().__init__(**kwargs)
-
-        self.screw = getattr(self.parent, screw_name)
-        if self.screw.connected:
-            self._recompute_limits()
 
     def forward(self, screw: float) -> float:
         """Return gamma angle (degrees) from screw translation."""
@@ -90,30 +82,6 @@ class GammaPositionerComputed(SoftPositioner):
     def inverse(self, gamma: float) -> float:
         """Return screw translation from gamma angle (degrees)."""
         return self.radius * math.tan(gamma * math.pi / 180)
-
-    @property
-    def position(self) -> float:
-        """The current position of gamma, as computed from screw position."""
-        try:
-            screw = self.screw.position
-        except AttributeError:
-            screw = 0  # during initialization
-        return self.forward(screw)
-
-    def _set_position(self, value, **kwargs):
-        """Set the current internal position, run the readback subscription."""
-        try:
-            angle = self.inverse(value)
-            self.screw._set_position(angle, **kwargs)
-        except AttributeError:
-            super()._set_position(value, **kwargs)  # during initialization
-
-    def _recompute_limits(self) -> None:
-        """Compute gamma limits from screw translation."""
-        try:
-            self._limits = tuple(sorted(map(self.forward, self.screw.limits)))
-        except AttributeError:
-            pass  # during initialization
 
 
 class SixcSim(SixcBase):
@@ -124,10 +92,10 @@ class SixcSim(SixcBase):
     """
 
     gamma = Component(
-        GammaPositionerComputed,
-        screw_name="gamscrew",
+        VirtualGamma,
+        physical_name="gamscrew",
         radius=DEFAULT_RADIUS,
-        init_pos=0,
+        init_pos=0,  # Updates from gamscrew when connected.
         kind=H_OR_N,
         labels=MOTOR_LABELS,
     )
@@ -135,7 +103,7 @@ class SixcSim(SixcBase):
     gamscrew = Component(
         SoftPositioner,
         limits=(-10, 250),
-        init_pos=1.30,
+        init_pos=0,
         kind=H_OR_N,
         labels=MOTOR_LABELS,
     )
@@ -151,7 +119,8 @@ class SixcSim(SixcBase):
         self.gamma.radius = radius
         if self.gamscrew.connected:
             self.gamma._recompute_limits()
-            self.core.constraints["gamma"].limits = self.gamma.limits
+            # TODO: add this step to 'VirtualPositionerBase._recompute_limits'
+            self.core.constraints[self.gamma.attr_name].limits = self.gamma.limits
 
 
 class Sixc(SixcSim):
@@ -197,45 +166,3 @@ class Sixc(SixcSim):
         self.m_gamscrew = m_gamscrew
         self.m_delta = m_delta
         super().__init__(*args, **kwargs)
-
-
-# developer code example here:
-# def main():
-#     """Demonstrate Sixc & SixcSim."""
-#     sixc = SixcSim(name="sixc")
-#     # print(f"{sixc=!r}")
-#     sixc.wh()
-
-#     print(sixc.position_table())
-
-#     sixc = Sixc(
-#         name="sixc",
-#         prefix="zgp:",
-#         m_mu="m1",
-#         m_theta="m2",
-#         m_chi="m3",
-#         m_phi="m4",
-#         m_gamscrew="m5",
-#         m_delta="m6",
-#         radius=1500.0,
-#     )
-#     sixc.wait_for_connection()
-#     sixc.gamma._recompute_limits()
-#     sixc.core.constraints["gamma"].limits = sixc.gamma.limits
-
-#     # print(f"{sixc=!r}")
-#     sixc.wh()
-#     # sixc.wh(full=True)
-#     # print(sixc.configuration)
-#     # print(f"{sixc.component_names=}")
-#     set_diffractometer(sixc)
-#     sixc.core.mode = "lifting detector tau"
-#     sixc.core.mode = "4-circles bissecting horizonta"
-#     print(f"{sixc.core.modes=}")
-#     print(f"{cahkl(0.01, .1, 0.05)=}")
-#     sixc.core.mode = "psi constant vertical"
-#     print(sixc.position_table())
-
-
-# if __name__ == "__main__":
-#     main()
