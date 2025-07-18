@@ -1,4 +1,4 @@
-# Diffractometers used by sixcidc configuration
+# Diffractometers with sixcidc geometry.
 
 id28_common.devices.sixc_geometry.Sixc:
 - name: sixcidc

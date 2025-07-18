@@ -20,6 +20,21 @@ create-bits $YOUR_INSTRUMENT_NAME
 pip install -e .
 ```
 
+## Possible startup error
+
+If you see this error when creating a diffractometer:
+
+```python
+hklpy2.misc.SolverError: Cannot import 'gi' (gobject-introspection) library.
+```
+
+Then this bash shell command will resolve the situation:
+
+```bash
+conda env config vars set LD_LIBRARY_PATH="${CONDA_PREFIX}/lib"
+```
+
+After this command, re-activate the conda environment and restart the session.
 
 ## IPython console Start
 
