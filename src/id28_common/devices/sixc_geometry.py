@@ -117,10 +117,6 @@ class SixcSim(SixcBase):
         """."""
         super().__init__(*args, **kwargs)
         self.gamma.radius = radius
-        if self.gamscrew.connected:
-            self.gamma._recompute_limits()
-            # TODO: add this step to 'VirtualPositionerBase._recompute_limits'
-            self.core.constraints[self.gamma.attr_name].limits = self.gamma.limits
 
 
 class Sixc(SixcSim):
